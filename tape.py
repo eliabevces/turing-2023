@@ -31,11 +31,6 @@ class Tape:
   
   def moveLeft(self, player_pos):
     self.head -= 1
-    if self.head == 0 :
-      self.entrada.insert(0, 'B')
-      self.head += 1
-      player_pos -= 40
-    return player_pos
   
   def resetTape(self) -> None:
     self.head = 0
