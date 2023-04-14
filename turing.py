@@ -22,7 +22,7 @@ color = color_passive
 
 active = False
 accept = False
-FRAMES_SEC = 60
+FRAMES_SEC = 1
 
 
 class TuringMachine:
@@ -56,7 +56,6 @@ class TuringMachine:
             player_pos.x += 40
 
     def changeState(self, transition: Transition) -> None:
-        player_pos.x = self.tape.checkFirstLast(player_pos.x)
         self.tape.setCharAt(self.tape.getHead(), transition.getWrite())
         self.setState(transition.getToState())
         self.moveTape(transition.getDirection())
@@ -89,6 +88,7 @@ class TuringMachine:
 
 
 def drawTape():
+    player_pos.x = turingMac.tape.checkFirstLast(player_pos.x)
     for i in range(len(turingMac.tape.entrada)):
         pygame.draw.polygon(
             screen,
@@ -216,8 +216,8 @@ while running:
         screen, "black", ((5, 350), (1275, 350), (1275, 250), (5, 250)), 1
     )  # L_D , R_D, R_U, L_U
     drawTape()
-    clock.tick(FRAMES_SEC)
     drawCurrentState()
+    clock.tick(FRAMES_SEC)
 
     transition = turingMac.getTransition(
         turingMac.getState(), turingMac.tape.getCharAt(turingMac.tape.getHead())
