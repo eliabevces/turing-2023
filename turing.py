@@ -11,7 +11,6 @@ screen = pygame.display.set_mode((1280, 720))
 clock = pygame.time.Clock()
 width_center = screen.get_width() / 2
 height_center = screen.get_height() / 2
-running = True
 player_pos = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)
 base_font = pygame.font.Font(None, 32)
 user_text = ""
@@ -19,8 +18,9 @@ input_rect = pygame.Rect(200, height_center - 16, 140, 32)
 color_active = pygame.Color("white")
 color_passive = pygame.Color("grey")
 color = color_passive
-
 active = False
+
+running = True
 accept = False
 FRAMES_SEC = 1
 
