@@ -13,6 +13,7 @@ width_center = screen.get_width() / 2
 height_center = screen.get_height() / 2
 player_pos = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)
 base_font = pygame.font.Font(None, 32)
+label_font = pygame.font.Font(None, 40)
 user_text = ""
 input_rect = pygame.Rect(200, height_center - 16, 140, 32)
 color_active = pygame.Color("white")
@@ -116,11 +117,13 @@ def drawTape():
 
 def drawAccept():
     if accept:
-        frase = "Aceito"
+        color = (2, 153, 42) # Verde
+        frase = "Aceito!"
     else:
-        frase = "Rejeitado"
+        color = (156, 3, 3) # Vermelho
+        frase = "Rejeitado!"
     font = pygame.font.Font("freesansbold.ttf", 32)
-    text = font.render(frase, True, (0, 0, 0))
+    text = font.render(frase, True, color)
     textRect = text.get_rect()
     textRect.center = (width_center, height_center / 2)
     screen.blit(text, textRect)
@@ -132,38 +135,8 @@ def drawCurrentState():
     textRect = text.get_rect()
     textRect.center = (width_center, height_center + height_center / 4)
     screen.blit(text, textRect)
-
-
-turingMac = TuringMachine()
-
-
-while running:
-    for event in pygame.event.get():
-        # if user types QUIT then the screen will close
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
-
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if input_rect.collidepoint(event.pos):
-                active = True
-            else:
-                active = False
-
-        if event.type == pygame.KEYDOWN:
-            # Check for backspace
-            if event.key == pygame.K_BACKSPACE:
-                # get text input from 0 to -1 i.e. end.
-                user_text = user_text[:-1]
-            elif event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
-                turingMac.tape.entrada = list(user_text)
-                running = False
-
-            # Unicode standard is used for string
-            # formation
-            else:
-                user_text += event.unicode
-
+    
+def drawInputScreen():
     screen.fill((0, 0, 0))
 
     if active:
@@ -171,34 +144,26 @@ while running:
     else:
         color = color_passive
 
-    # draw rectangle and argument passed which should
-    # be on screen
+    # desenha retangulo e argumento passado que deveriam estar na tela
     pygame.draw.rect(screen, color, input_rect)
 
+    label_field = label_font.render("Digite uma entrada:", True, (255, 255, 255))
     text_surface = base_font.render(user_text, True, (0, 0, 0))
 
-    # render at position stated in arguments
+    # renderiza nas posicoes indicadas nos argumentos
+    screen.blit(label_field, (input_rect.x, input_rect.y - 40))
     screen.blit(text_surface, (input_rect.x + 5, input_rect.y + 5))
 
-    # set width of textfield so that text cannot get
-    # outside of user's text input
+    # seta largura do campo de texto para que o texto não saia do input do usuário
     input_rect.w = max(100, text_surface.get_width() + 10)
 
-    # display.flip() will update only a portion of the
-    # screen to updated, not full area
+    # atualiza tela
     pygame.display.flip()
 
-    # clock.tick(60) means that for every second at most
-    # 60 frames should be passed.
+    # para cada segundo, no máximo 60 frames serão passados
     clock.tick(60)
-
-running = True
-
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-
+    
+def drawTapeScreen():
     screen.fill("grey")
     pygame.draw.polygon(
         screen,
@@ -215,8 +180,57 @@ while running:
     pygame.draw.polygon(
         screen, "black", ((5, 350), (1275, 350), (1275, 250), (5, 250)), 1
     )  # L_D , R_D, R_U, L_U
+
+
+# INICIO DA EXECUCAO
+
+turingMac = TuringMachine()
+
+##############################
+# Primeira tela - Ler input do usuário
+##############################
+while running:
+    drawInputScreen()
+    
+    for event in pygame.event.get():
+        # Detecta acao de fechar a tela pelo usuario e da QUIT no programa
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if input_rect.collidepoint(event.pos):
+                active = True
+            else:
+                active = False
+
+        if event.type == pygame.KEYDOWN:
+            # Verifica tecla de backspace ("apagar")
+            if event.key == pygame.K_BACKSPACE:
+                # para cada vez pressionado tira um elemento do input
+                user_text = user_text[:-1]
+            elif event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
+                turingMac.tape.entrada = list(user_text)
+                running = False
+
+            # É utilizado padrão Unicode para strings
+            else:
+                user_text += event.unicode
+
+running = True
+
+##############################
+# Segunda tela - Processar input do usuário
+##############################
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+    drawTapeScreen()
     drawTape()
     drawCurrentState()
+    
     clock.tick(FRAMES_SEC)
 
     transition = turingMac.getTransition(
@@ -230,5 +244,5 @@ while running:
         else:
             accept = False
         drawAccept()
-    # flip() the display to put your work on screen
+    
     pygame.display.flip()
