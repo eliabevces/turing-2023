@@ -1,0 +1,170 @@
+{
+  "states": "q0 q1 q2 q3 q4 qf qv q>= q<",
+  "alphabet": "0 1",
+  "tapeSymbols": "0 1 x y",
+  "initialState": "q0",
+  "finalStates": "q>= q<",
+  "transitions": [
+    {
+      "fromS": "q0",
+      "toS": "q1",
+      "read": "1",
+      "write": "x",
+      "direction": "R"
+    },
+    {
+      "fromS": "q0",
+      "toS": "q4",
+      "read": "0",
+      "write": "0",
+      "direction": "R"
+    },
+    {
+      "fromS": "q1",
+      "toS": "q1",
+      "read": "1",
+      "write": "1",
+      "direction": "R"
+    },
+    {
+      "fromS": "q1",
+      "toS": "q2",
+      "read": "0",
+      "write": "0",
+      "direction": "R"
+    },
+    {
+      "fromS": "q2",
+      "toS": "q3",
+      "read": "1",
+      "write": "y",
+      "direction": "L"
+    },
+    {
+      "fromS": "q2",
+      "toS": "q2",
+      "read": "y",
+      "write": "y",
+      "direction": "R"
+    },
+    {
+      "fromS": "q2",
+      "toS": "qv",
+      "read": "B",
+      "write": "B",
+      "direction": "L"
+    },
+    {
+      "fromS": "q3",
+      "toS": "q3",
+      "read": "y",
+      "write": "y",
+      "direction": "L"
+    },
+    {
+      "fromS": "q3",
+      "toS": "q3",
+      "read": "0",
+      "write": "0",
+      "direction": "L"
+    },
+    {
+      "fromS": "q3",
+      "toS": "q3",
+      "read": "1",
+      "write": "1",
+      "direction": "L"
+    },
+    {
+      "fromS": "q3",
+      "toS": "q0",
+      "read": "x",
+      "write": "x",
+      "direction": "R"
+    },
+    {
+      "fromS": "q4",
+      "toS": "q4",
+      "read": "y",
+      "write": "y",
+      "direction": "R"
+    },
+    {
+      "fromS": "q4",
+      "toS": "qf",
+      "read": "1",
+      "write": "1",
+      "direction": "L"
+    },
+    {
+      "fromS": "q4",
+      "toS": "qv",
+      "read": "B",
+      "write": "B",
+      "direction": "L"
+    },
+    {
+      "fromS": "qf",
+      "toS": "qf",
+      "read": "0",
+      "write": "0",
+      "direction": "L"
+    },
+    {
+      "fromS": "qf",
+      "toS": "qf",
+      "read": "y",
+      "write": "1",
+      "direction": "L"
+    },
+    {
+      "fromS": "qf",
+      "toS": "qf",
+      "read": "x",
+      "write": "1",
+      "direction": "L"
+    },
+    {
+      "fromS": "qf",
+      "toS": "q<",
+      "read": "B",
+      "write": "B",
+      "direction": "R"
+    },
+    {
+      "fromS": "qv",
+      "toS": "qv",
+      "read": "y",
+      "write": "1",
+      "direction": "L"
+    },
+    {
+      "fromS": "qv",
+      "toS": "qv",
+      "read": "x",
+      "write": "1",
+      "direction": "L"
+    },
+    {
+      "fromS": "qv",
+      "toS": "qv",
+      "read": "0",
+      "write": "0",
+      "direction": "L"
+    },
+    {
+      "fromS": "qv",
+      "toS": "qv",
+      "read": "1",
+      "write": "1",
+      "direction": "L"
+    },
+    {
+      "fromS": "qv",
+      "toS": "q>=",
+      "read": "B",
+      "write": "B",
+      "direction": "R"
+    }
+  ]
+}
