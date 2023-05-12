@@ -6,6 +6,7 @@ class Transition:
     self.read = read
     self.write = write
     self.direction = direction
+    self.used = False
 
 
   def getFromState(self) -> str:
@@ -27,3 +28,5 @@ class Transition:
   def getDirection(self) -> str :
     return self.direction;
   
+  def tostring(self) -> str:
+    return self.fromState + " " + self.read + " " + self.toState + " " + self.write + " " + self.direction

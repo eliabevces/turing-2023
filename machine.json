@@ -1,51 +1,93 @@
 {
-  "states": "q0 q1 q2",
-  "alphabet": "0 1",
-  "tapeSymbols": "0 1",
+  "states": "q0 q1 q2 q3 q4 q5 q6 q7",
+  "alphabet": "C G T A",
+  "tapeSymbols": "C G T A B",
   "initialState": "q0",
-  "finalStates": "q2",
+  "finalStates": "q7",
   "transitions": [
     {
       "fromS": "q0",
-      "toS": "q0",
-      "read": "0",
-      "write": "0",
+      "toS": "q1",
+      "read": "C",
+      "write": "C",
       "direction": "R"
     },
     {
       "fromS": "q0",
-      "toS": "q0",
-      "read": "1",
-      "write": "1",
+      "toS": "q3",
+      "read": "C",
+      "write": "C",
       "direction": "R"
     },
     {
       "fromS": "q0",
-      "toS": "q1",
-      "read": "B",
-      "write": "B",
-      "direction": "L"
+      "toS": "q4",
+      "read": "C",
+      "write": "C",
+      "direction": "R"
     },
     {
       "fromS": "q1",
       "toS": "q2",
-      "read": "0",
-      "write": "1",
+      "read": "A",
+      "write": "A",
       "direction": "L"
     },
     {
-      "fromS": "q1",
+      "fromS": "q2",
       "toS": "q1",
-      "read": "1",
-      "write": "0",
-      "direction": "L"
+      "read": "C",
+      "write": "C",
+      "direction": "R"
     },
     {
-      "fromS": "q1",
-      "toS": "q2",
-      "read": "B",
-      "write": "1",
-      "direction": "L"
+      "fromS": "q3",
+      "toS": "q3",
+      "read": "C",
+      "write": "C",
+      "direction": "R"
+    },
+    {
+      "fromS": "q3",
+      "toS": "q7",
+      "read": "T",
+      "write": "T",
+      "direction": "S"
+    },
+    {
+      "fromS": "q4",
+      "toS": "q5",
+      "read": "G",
+      "write": "G",
+      "direction": "R"
+    },
+    {
+      "fromS": "q5",
+      "toS": "q6",
+      "read": "A",
+      "write": "A",
+      "direction": "R"
+    },
+    {
+      "fromS": "q4",
+      "toS": "q6",
+      "read": "G",
+      "write": "G",
+      "direction": "R"
+    },
+    {
+      "fromS": "q6",
+      "toS": "q7",
+      "read": "A",
+      "write": "A",
+      "direction": "S"
+    },
+    {
+      "fromS": "q4",
+      "toS": "q7",
+      "read": "C",
+      "write": "C",
+      "direction": "S"
     }
   ]
 }

@@ -57,6 +57,7 @@ class TuringMachine:
             player_pos.x += 40
 
     def changeState(self, transition: Transition) -> None:
+        print(transition.getFromState(), transition.getRead(), transition.getToState(), transition.getWrite(), transition.getDirection())
         self.tape.setCharAt(self.tape.getHead(), transition.getWrite())
         self.setState(transition.getToState())
         self.moveTape(transition.getDirection())
@@ -75,11 +76,12 @@ class TuringMachine:
 
     # GET NEXT TRANSITION
 
-    def getTransition(self, from_state: str, read: str) -> Transition:
+    def getTransition(self, from_state: str, read: str) -> list[Transition]:
+        transition_list = []
         for transition in self.transitions:
-            if transition.getFromState() == from_state and transition.getRead() == read:
-                return transition
-        return None
+            if (transition.getFromState() == from_state and (transition.getRead() == read or transition.getRead() == "E") ) and transition.used == False :
+                transition_list.append(transition)
+        return transition_list
 
     def getState(self) -> str:
         return self.state
@@ -127,6 +129,17 @@ def drawAccept():
     textRect = text.get_rect()
     textRect.center = (width_center, height_center / 2)
     screen.blit(text, textRect)
+
+def drawRollback():
+    color = (0, 0, 250) # Verde
+    frase = "Rollback!"
+    font = pygame.font.Font("freesansbold.ttf", 32)
+    text = font.render(frase, True, color)
+    textRect = text.get_rect()
+    textRect.center = (width_center, height_center / 2)
+    screen.blit(text, textRect)
+    pygame.display.flip()
+    refreshscreen()
 
 
 def drawCurrentState():
@@ -181,6 +194,76 @@ def drawTapeScreen():
         screen, "black", ((5, 350), (1275, 350), (1275, 250), (5, 250)), 1
     )  # L_D , R_D, R_U, L_U
 
+def refreshscreen():
+    drawTapeScreen()
+    drawTape()
+    
+    drawCurrentState()
+
+    clock.tick(FRAMES_SEC)
+    pygame.display.flip()
+
+
+# RECURSÃO DE EXECUÇÃO
+def mtn(turingMac, lastTransition=None) -> None:
+    print(turingMac.tape.entrada)
+    print(turingMac.tape.getHead())
+    print(turingMac.getState())
+    global accept
+    if accept:
+        return
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+    
+    refreshscreen()
+
+    transition_list = turingMac.getTransition(
+        turingMac.getState(), turingMac.tape.getCharAt(turingMac.tape.getHead())
+    )
+    print(transition_list)
+    if len(transition_list) == 0:
+        print("Nenhuma transição encontrada")
+        if turingMac.getState() in turingMac.final_states:
+            accept = True
+            return
+        else:
+            if lastTransition != None:
+                print("Voltando ")
+                if lastTransition.getDirection() == "R":
+                    direction = "L"
+                    turingMac.tape.setCharAt(turingMac.tape.getHead()-1, lastTransition.read)
+                elif lastTransition.getDirection() == "L":
+                    direction = "R"
+                    turingMac.tape.setCharAt(turingMac.tape.getHead()+1, lastTransition.read)
+
+                print("Estado atual: ", turingMac.getState() + " -> " + lastTransition.fromState + " | " + lastTransition.read + " | " + direction)
+                turingMac.setState(lastTransition.fromState)
+                turingMac.moveTape(direction)
+
+                drawRollback()
+
+                refreshscreen()
+            return
+
+    while len(transition_list) > 0:
+        print([transicoes.tostring() for transicoes in transition_list])
+        print("Executando transição: ", transition_list[0].tostring())
+        turingMac.changeState(transition_list[0])
+        transition_list[0].used = True
+        mtn(turingMac, transition_list[0])
+        transition_list = turingMac.getTransition(
+        turingMac.getState(), turingMac.tape.getCharAt(turingMac.tape.getHead())
+        )
+
+    
+    
+
+    
+
+        
+
+
 
 # INICIO DA EXECUCAO
 
@@ -222,27 +305,13 @@ running = True
 ##############################
 # Segunda tela - Processar input do usuário
 ##############################
+mtn(turingMac)
+
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
 
-    drawTapeScreen()
-    drawTape()
-    drawCurrentState()
-    
-    clock.tick(FRAMES_SEC)
+    drawAccept()
 
-    transition = turingMac.getTransition(
-        turingMac.getState(), turingMac.tape.getCharAt(turingMac.tape.getHead())
-    )
-    if transition != None:
-        turingMac.changeState(transition)
-    else:
-        if turingMac.getState() in turingMac.final_states:
-            accept = True
-        else:
-            accept = False
-        drawAccept()
-    
     pygame.display.flip()
