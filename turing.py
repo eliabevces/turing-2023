@@ -75,7 +75,7 @@ class TuringMachine:
 
     # GET NEXT TRANSITION
 
-    def getTransition(self, from_state: str, read: str) -> list[Transition]:
+    def getTransitions(self, from_state: str, read: str) -> list[Transition]:
         transition_list = []
         for transition in self.transitions:
             if (transition.getFromState() == from_state and (transition.getRead() == read or transition.getRead() == "E") ) and transition.used == False :
@@ -217,8 +217,8 @@ def mtn(turingMac, transition_list):
     
     for transition in transition_list:
         turingMac.changeState(transition)
-        refreshscreen()
-        mtn(turingMac, turingMac.getTransition(
+
+        mtn(turingMac, turingMac.getTransitions(
             turingMac.getState(), turingMac.tape.getCharAt(turingMac.tape.getHead())
         ))
 
@@ -282,7 +282,7 @@ running = True
 ##############################
 mtn(
     turingMac,
-    turingMac.getTransition(
+    turingMac.getTransitions(
             turingMac.getState(), turingMac.tape.getCharAt(turingMac.tape.getHead())
         )
 )
