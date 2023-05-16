@@ -78,7 +78,7 @@ class TuringMachine:
     def getTransition(self, from_state: str, read: str) -> list[Transition]:
         transition_list = []
         for transition in self.transitions:
-            if (transition.getFromState() == from_state and (transition.getRead() == read or transition.getRead() == "E") ) and transition.used == False :
+            if (transition.getFromState() == from_state and (transition.getRead() == read or transition.getRead() == "E") ) :
                 transition_list.append(transition)
         return transition_list
 
