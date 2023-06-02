@@ -1,0 +1,44 @@
+{
+    "states": "q0, q1, q2, qf",
+    "alphabet": "0, 1",
+    "tapeSymbols": "0, 1, B",
+    "initialState": "q0",
+    "finalStates": "qf",
+    "transitions": [
+      {
+        "fromS": "q0",
+        "toS": "q0",
+        "read": "0",
+        "write": "1",
+        "direction": "R"
+      },
+      {
+        "fromS": "q0",
+        "toS": "q1",
+        "read": "0",
+        "write": "1",
+        "direction": "R"
+      },
+      {
+        "fromS": "q1",
+        "toS": "q2",
+        "read": "1",
+        "write": "0",
+        "direction": "L"
+      },
+      {
+        "fromS": "q2",
+        "toS": "q0",
+        "read": "1",
+        "write": "1",
+        "direction": "R"
+      },
+      {
+        "fromS": "q1",
+        "toS": "qf",
+        "read": "B",
+        "write": "B",
+        "direction": "R"
+      }
+    ]
+  }  
