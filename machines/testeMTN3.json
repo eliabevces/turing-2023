@@ -1,0 +1,51 @@
+{
+  "states": "a b c d",
+  "alphabet": "0 1",
+  "tapeSymbols": "B 0 1",
+  "initialState": "a",
+  "finalStates": "b",
+  "transitions": [
+    {
+      "fromS": "a",
+      "toS": "b",
+      "read": "0",
+      "write": "0",
+      "direction": "R"
+    },
+    {
+      "fromS": "a",
+      "toS": "d",
+      "read": "0",
+      "write": "0",
+      "direction": "R"
+    },
+    {
+      "fromS": "b",
+      "toS": "c",
+      "read": "0",
+      "write": "0",
+      "direction": "L"
+    },
+    {
+      "fromS": "c",
+      "toS": "b",
+      "read": "0",
+      "write": "0",
+      "direction": "R"
+    },
+    {
+      "fromS": "d",
+      "toS": "d",
+      "read": "0",
+      "write": "0",
+      "direction": "R"
+    },
+    {
+      "fromS": "d",
+      "toS": "b",
+      "read": "B",
+      "write": "0",
+      "direction": "R"
+    }
+  ]
+}
